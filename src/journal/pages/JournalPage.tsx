@@ -2,6 +2,8 @@ import { AddOutlined } from "@mui/icons-material";
 import { Typography, IconButton } from "@mui/material";
 import { JournalLayout } from "../layout/JournalLayout";
 import { NothingSelectedView, NoteView } from "../views";
+import { useAppDispatch } from "../../store/store";
+import { logout } from "../../store";
 
 type Props = {};
 

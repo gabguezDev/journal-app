@@ -13,12 +13,15 @@ import {
 } from "@mui/material";
 import { TurnedInNot } from "@mui/icons-material";
 import { Grid } from "@mui/material";
+import { useAppStore } from "../../hooks/useAppStore";
 
 type Props = {
 	drawerWidth: number;
 };
 
 export const SideBar = ({ drawerWidth }: Props) => {
+	const { displayName } = useAppStore().auth;
+
 	return (
 		<Box
 			component="nav"
@@ -34,7 +37,7 @@ export const SideBar = ({ drawerWidth }: Props) => {
 			>
 				<Toolbar>
 					<Typography component="div" variant="h6" noWrap>
-						Cosme Fulanito
+						{displayName}
 					</Typography>
 				</Toolbar>
 

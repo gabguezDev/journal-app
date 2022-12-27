@@ -1,12 +1,21 @@
 import { LogoutOutlined, MenuOutlined } from "@mui/icons-material";
 import { AppBar, IconButton, Toolbar, Grid, Typography } from "@mui/material";
-import React from "react";
+import { logout } from "../../store";
+import { useAppDispatch } from "../../store/store";
+import { logoutFirebase } from "../../firebase/providers";
+import { startLogout } from "../../store/auth/thunks";
 
 type Props = {
 	drawerWidth: number;
 };
 
 export const NavBar = ({ drawerWidth }: Props) => {
+	const dispatch = useAppDispatch();
+
+	const onLogout = () => {
+		dispatch(startLogout());
+	};
+
 	return (
 		<AppBar
 			position="fixed"
@@ -34,7 +43,7 @@ export const NavBar = ({ drawerWidth }: Props) => {
 					<Typography component="div" variant="h6" noWrap>
 						JournalApp
 					</Typography>
-					<IconButton color="inherit" aria-label="logout">
+					<IconButton color="inherit" aria-label="logout" onClick={onLogout}>
 						<LogoutOutlined />
 					</IconButton>
 				</Grid>
