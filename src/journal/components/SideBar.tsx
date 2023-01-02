@@ -14,6 +14,9 @@ import {
 import { TurnedInNot } from "@mui/icons-material";
 import { Grid } from "@mui/material";
 import { useAppStore } from "../../hooks/useAppStore";
+import { SidebarItem } from "./SidebarItem";
+import { setActiveNote } from "../../store/journal";
+import { useAppDispatch } from "../../store/store";
 
 type Props = {
 	drawerWidth: number;
@@ -21,6 +24,7 @@ type Props = {
 
 export const SideBar = ({ drawerWidth }: Props) => {
 	const { displayName } = useAppStore().auth;
+	const { notes } = useAppStore().journal;
 
 	return (
 		<Box
@@ -44,18 +48,8 @@ export const SideBar = ({ drawerWidth }: Props) => {
 				<Divider />
 
 				<List>
-					{["Enero", "Febero", "Marzo", "Abril", "Mayo"].map(month => (
-						<ListItem key={month} disablePadding>
-							<ListItemButton>
-								<ListItemIcon>
-									<TurnedInNot />
-								</ListItemIcon>
-								<Grid container>
-									<ListItemText primary={month} />
-									<ListItemText secondary="Lorem ipsum dolor et" />
-								</Grid>
-							</ListItemButton>
-						</ListItem>
+					{notes.map(note => (
+						<SidebarItem key={note.id} {...note} />
 					))}
 				</List>
 			</Drawer>

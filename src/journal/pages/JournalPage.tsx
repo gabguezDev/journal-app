@@ -4,21 +4,38 @@ import { JournalLayout } from "../layout/JournalLayout";
 import { NothingSelectedView, NoteView } from "../views";
 import { useAppDispatch } from "../../store/store";
 import { logout } from "../../store";
+import { startNewNote } from "../../store/journal/thunks";
+import { useAppStore } from "../../hooks/useAppStore";
 
 type Props = {};
 
 export const JournalPage = (props: Props) => {
+	const dispatch = useAppDispatch();
+
+	const { isSaving, active } = useAppStore().journal;
+
+	const onAddNewNoteClick = () => {
+		dispatch(
+			startNewNote({
+				body: "body",
+				date: new Date().getDate(),
+				imageUrls: ["urlImg1", "urlImg2"],
+				title: "Nota 1",
+			})
+		);
+	};
+
 	return (
 		<JournalLayout>
 			{/* <Typography component="h1" variant="h1">
 				asdasdasd
 			</Typography> */}
 
-			<NothingSelectedView />
-
-			{/* <NoteView /> */}
+			{!!active ? <NoteView /> : <NothingSelectedView />}
 
 			<IconButton
+				onClick={onAddNewNoteClick}
+				disabled={isSaving}
 				size="large"
 				sx={{
 					color: "white",

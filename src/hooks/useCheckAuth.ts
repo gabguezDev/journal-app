@@ -7,6 +7,7 @@ import { useAppDispatch } from "../store/store";
 import { login, logout } from "../store";
 
 import { useAppStore } from "./useAppStore";
+import { startLoadingNotes } from "../store/journal/thunks";
 
 export const useCheckAuth = () => {
 	const dispatch = useAppDispatch();
@@ -23,6 +24,8 @@ export const useCheckAuth = () => {
 					uid: user.uid,
 				})
 			);
+
+			dispatch(startLoadingNotes());
 		});
 	}, []);
 
