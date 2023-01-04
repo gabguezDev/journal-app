@@ -28,16 +28,17 @@ export const journalSlice = createSlice({
 	reducers: {
 		addNewEmptyNote: (state, { payload }: PayloadAction<Note>) => {
 			state.notes = [payload, ...state.notes];
+			state.isSaving = false;
 		},
 		setActiveNote: (state, { payload }: PayloadAction<Note>) => {
 			state.active = payload;
-		},
-		startSavingNewNote: state => {
-			state.isSaving = true;
 			state.messageSaved = null;
 		},
-		setSaving: state => {
+		savingNewNote: state => {
 			state.isSaving = false;
+		},
+		setSaving: state => {
+			state.isSaving = true;
 			state.messageSaved = null;
 		},
 		setNotes: (state, { payload }: PayloadAction<Note[]>) => {
@@ -48,9 +49,27 @@ export const journalSlice = createSlice({
 				note.id === payload.id ? payload : note
 			) as Note[];
 
+			state.isSaving = true;
 			state.messageSaved = "Nota actualizada con éxito";
 		},
-		deleteNoteById: state => {},
+		setPhotosURLsToActiveNote: (
+			state,
+			{ payload }: PayloadAction<string[]>
+		) => {
+			if (!!state.active) {
+				state.active.imageUrls = [...state.active?.imageUrls, ...payload];
+			}
+			state.isSaving = false;
+		},
+		resetJournalStore: state => {
+			state = initialState;
+		},
+		deleteNoteById: (state, { payload }: PayloadAction<Partial<Note>>) => {
+			state.active = null;
+			state.notes = state.notes.filter(
+				note => note.id !== payload.id
+			) as Note[];
+		},
 	},
 });
 
@@ -59,8 +78,10 @@ export const {
 	addNewEmptyNote,
 	setActiveNote,
 	setNotes,
-	startSavingNewNote,
+	savingNewNote,
 	setSaving,
 	updateNote,
 	deleteNoteById,
+	setPhotosURLsToActiveNote,
+	resetJournalStore,
 } = journalSlice.actions;

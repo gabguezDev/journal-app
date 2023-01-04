@@ -5,6 +5,9 @@ import {
 } from "../../firebase/providers";
 import { checkingCredentials, login, logout } from "./authSlice";
 import { logoutFirebase } from "../../firebase/providers";
+import { FirebaseDB } from "../../firebase/config";
+import { deleteDoc, doc } from "firebase/firestore/lite";
+import { deleteNoteById, setNotes } from "../journal";
 
 export const checkingAuthentication =
 	(/* email: string, password: string */) => {
@@ -81,5 +84,18 @@ export const startLogout = () => {
 	return async (dispatch: any) => {
 		await logoutFirebase();
 		dispatch(logout(null));
+	};
+};
+export const startDeletingNote = () => {
+	return async (dispatch: any, getState: any) => {
+		const { uid } = getState().auth;
+		const { active: note } = getState().journal;
+
+		const docRef = doc(FirebaseDB, `${uid}/journal/notes/${note.id}`);
+
+		await deleteDoc(docRef);
+
+		dispatch(deleteNoteById(note.id));
+		// dispatch(setNotes());
 	};
 };

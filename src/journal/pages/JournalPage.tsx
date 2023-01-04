@@ -7,30 +7,24 @@ import { logout } from "../../store";
 import { startNewNote } from "../../store/journal/thunks";
 import { useAppStore } from "../../hooks/useAppStore";
 
-type Props = {};
+const newNote = {
+	body: "Escriba la descripción aquí",
+	date: new Date().toLocaleDateString(),
+	imageUrls: [],
+	title: "Nueva Nota",
+};
 
-export const JournalPage = (props: Props) => {
+export const JournalPage = () => {
 	const dispatch = useAppDispatch();
 
 	const { isSaving, active } = useAppStore().journal;
 
 	const onAddNewNoteClick = () => {
-		dispatch(
-			startNewNote({
-				body: "body",
-				date: new Date().getDate(),
-				imageUrls: ["urlImg1", "urlImg2"],
-				title: "Nota 1",
-			})
-		);
+		dispatch(startNewNote(newNote));
 	};
 
 	return (
 		<JournalLayout>
-			{/* <Typography component="h1" variant="h1">
-				asdasdasd
-			</Typography> */}
-
 			{!!active ? <NoteView /> : <NothingSelectedView />}
 
 			<IconButton

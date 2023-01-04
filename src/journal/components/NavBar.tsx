@@ -1,9 +1,8 @@
 import { LogoutOutlined, MenuOutlined } from "@mui/icons-material";
 import { AppBar, IconButton, Toolbar, Grid, Typography } from "@mui/material";
-import { logout } from "../../store";
 import { useAppDispatch } from "../../store/store";
-import { logoutFirebase } from "../../firebase/providers";
 import { startLogout } from "../../store/auth/thunks";
+import { resetJournalStore } from "../../store/journal";
 
 type Props = {
 	drawerWidth: number;
@@ -14,6 +13,7 @@ export const NavBar = ({ drawerWidth }: Props) => {
 
 	const onLogout = () => {
 		dispatch(startLogout());
+		dispatch(resetJournalStore());
 	};
 
 	return (
